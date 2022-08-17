@@ -44,7 +44,8 @@ public class ArticleController {
         //System.out.println(saved.toString());
         log.info(saved.toString());
 
-        return "";
+        //리다이렉트
+        return "redirect:/articles/"+saved.getId();
     }
 
     @GetMapping("/articles/{id}")
