@@ -2,10 +2,7 @@ package com.example.firstproject.entity;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @AllArgsConstructor
 @ToString
@@ -15,7 +12,7 @@ import javax.persistence.Id;
 public class Article {
 
     @Id // 대표 값
-    @GeneratedValue //자동 생성 어노테이션
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // DB가 id를 자동 생성 어노테이션
     private Long id;
 
     @Column
