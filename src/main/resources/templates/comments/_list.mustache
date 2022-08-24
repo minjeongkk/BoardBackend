@@ -1,6 +1,6 @@
 <div id="comments-list">
     {{#commentDtos}}
-    <div class = "card m-2" id=""comments-{{id}}>
+    <div class = "card m-2" id="comments-{{id}}">
         <div class="card-header">
             {{nickname}}
             <!-- 모달 트리거 버튼 -->
@@ -12,6 +12,10 @@
                     data-bs-nickname="{{nickname}}"
                     data-bs-body="{{body}}"
                     data-bs-article-id="{{articleId}}">수정</button>
+            <!-- 댓글 삭제 버튼 -->
+            <button type="button"
+                    class="btn btn-sm btn-outline-danger comment-delete-btn"
+                    data-comment-id="{{id}}">삭제</button>
         </div>
         <div class="card-body">
             {{body}}
@@ -115,4 +119,41 @@
         });
     }
 
+</script>
+
+<!-- 댓글 삭제 -->
+<script>
+    {
+        // 삭제 버튼 선택, 클래스로 값 가져오기
+        const commentDeleteBtns = document.querySelectorAll(".comment-delete-btn");
+
+        // 삭제 버튼 이벤트를 처리, 여러개의 버튼을 각각 처리
+        commentDeleteBtns.forEach(btn => {
+            // 각 버튼의 이벤트 처리 등록
+            btn.addEventListener("click", () => {
+                // 이벤트 발생 요소를 선택
+                const commentDeleteBtn = event.srcElement;
+
+                // 삭제 댓글 id 가져오기
+                const commentId = commentDeleteBtn.getAttribute("data-comment-id");
+                console.log( `삭제버튼 클릭 ${commentId}번 댓글` );
+
+                // 삭제 API 호출 및 처리
+                const url =`/api/comments/${commentId}`;
+                fetch(url, {
+                    method: "DELETE"
+                }).then(response => {
+                    // 댓글 삭제 실패 처리
+                    if (!response.ok){
+                        alert("댓글 삭제 실패..!");
+                        return;
+                    }
+
+                    // 댓글 삭제 성공 시, 댓글을 화면에서 지움
+                    const target = document.querySelector(`#comments-${commentId}`);
+                    target.remove();
+                });
+            });
+        });
+    }
 </script>
